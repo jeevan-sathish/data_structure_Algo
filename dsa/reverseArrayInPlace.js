@@ -1,0 +1,20 @@
+// Reverse Array in place
+
+function ReverseArrayInPlace(arr) {
+  let left = 0;
+  let right = arr.length - 1;
+  while (left < right) {
+    let temp = arr[left];
+    arr[left] = arr[right];
+    arr[right] = temp;
+
+    left++;
+    right--;
+  }
+
+  return arr;
+}
+
+const array = [1, 2, 3, 4, 5];
+const result = ReverseArrayInPlace(array);
+console.log(result);
