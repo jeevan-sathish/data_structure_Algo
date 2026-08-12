@@ -22,23 +22,46 @@
 // };
 
 // console.log(User1.name);
-type Adress = {
-  city: string;
-};
+// type Adress = {
+//   city: string;
+// };
 
-type User = {
+// type User = {
+//   name: string;
+//   age: number;
+//   adress: Adress;
+// };
+
+// const info: User = {
+//   name: "jeevan",
+//   age: 20,
+//   adress: {
+//     city: "mysore",
+//   },
+// };
+// info.adress.city = "mandya";
+// console.log(info);
+
+// function add(a: number, b: number): number {
+//   console.log(a + b);
+// }
+// add(2, 5);
+
+interface User {
+  id: number;
   name: string;
-  age: number;
-  adress: Adress;
+}
+
+interface Admin extends User {
+  role: string;
+}
+
+const admin: Admin = {
+  id: 1,
+  name: "jeevan",
+  role: "admin",
 };
 
-const info: User = {
-  name: "jeevan",
-  age: 20,
-  adress: {
-    city: "mysore",
-  },
-};
-info.adress.city = "mandya";
-console.log(info);
+console.log(admin.role);
+
 export {};
