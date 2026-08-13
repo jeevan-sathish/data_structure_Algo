@@ -47,21 +47,38 @@
 // }
 // add(2, 5);
 
-interface User {
-  id: number;
-  name: string;
-}
+// interface User {
+//   id: number;
+//   name: string;
+// }
 
-interface Admin extends User {
-  role: string;
-}
+// interface Admin extends User {
+//   role: string;
+// }
+// interface Manager extends Admin {
+//   salary: number;
+// }
 
-const admin: Admin = {
-  id: 1,
-  name: "jeevan",
-  role: "admin",
-};
+// const admin: Admin = {
+//   id: 1,
+//   name: "jeevan",
+//   role: "admin",
+// };
 
-console.log(admin.role);
+// const manager: Manager = {
+//   id:2,
+//   name:"navin",
+//   role
+//   salary: 20000,
+// };
+
+// console.log(manager.salary);
+
+// console.log(admin.role);
+
+// type Day = "sun" | "mon";
+
+// const day: Day = "sun";
+// console.log(day);
 
 export {};
