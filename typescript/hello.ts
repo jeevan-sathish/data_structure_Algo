@@ -81,4 +81,15 @@
 // const day: Day = "sun";
 // console.log(day);
 
+// let name: unknown = "";
+// name = "hello";
+// if (typeof name === "string") {
+//   console.log(name.toUpperCase());
+// }
+
+function identify<T>(name: T): T {
+  return name;
+}
+console.log(identify(20));
+
 export {};
