@@ -87,9 +87,19 @@
 //   console.log(name.toUpperCase());
 // }
 
-function identify<T>(name: T): T {
-  return name;
-}
-console.log(identify(20));
+let promiss = new Promise<number>((resolve, reject) => {
+  if (23 > 10) {
+    resolve(1);
+  } else {
+    reject(0);
+  }
+});
+
+promiss
+  .then((data) => console.log(data))
+  .catch((reject) => console.log(reject))
+  .finally(() => {
+    console.log("finished");
+  });
 
 export {};
