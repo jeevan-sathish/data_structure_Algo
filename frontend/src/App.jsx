@@ -1,83 +1,56 @@
 import { useState } from "react";
 
 const App = () => {
-  const [inp, setInp] = useState("");
-  const [chat, setChat] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [newchat, setNewchat] = useState([]);
+  const [message, setMessage] = useState([]);
+  const [text, setText] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
 
-  function handleChange(e) {
-    setInp(e.target.value);
-  }
+  function handleForm(formdata) {
+    const data = formdata.get("text");
 
-  async function handleSubmit() {
-    setChat((prev) => [...prev, { message: inp, role: "user" }]);
-    setLoading(true);
-    setInp(" ");
-    try {
-      const response = await fetch("http://localhost:3000/message", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          question: inp,
-        }),
-      });
-      const result = await response.json();
-      setChat((prev) => [...prev, { message: result.response, role: "bot" }]);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+    if (editIndex !== null) {
+      setMessage((prev) =>
+        prev.map((item, index) => (index === editIndex ? data : item)),
+      );
+
+      setEditIndex(null);
+      setText("");
+    } else {
+      setMessage((prev) => [...prev, data]);
+      setText("");
     }
   }
 
-  function handleNewChat() {
-    setNewchat((prev) => [...prev, chat]);
-    setChat([]);
+  function handleEdit(index) {
+    setEditIndex(index);
+
+    // Put the selected message into the input
+    setText(message[index]);
   }
+
   return (
     <div>
-      <input type="text" name="inp" value={inp} onChange={handleChange} />
+      <form action={handleForm}>
+        <input
+          type="text"
+          name="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
 
-      <button onClick={handleSubmit}>submit</button>
-      <button onClick={handleNewChat}>new chat</button>
-      <div style={{ color: "pink" }}>
-        {newchat.map((ele) =>
-          ele.map((e, i) => (
-            <div
-              key={i}
-              style={{
-                display: "flex",
-                justifyContent: e.role === "user" ? "flex-end" : "flex-start",
-                margin: "10px",
-              }}
-            >
-              <div
-                style={{
-                  padding: "10px",
-                  backgroundColor:
-                    e.role === "user" ? "lightblue" : "lightgray",
-                  borderRadius: "10px",
-                }}
-              >
-                {e.message}
-              </div>
-            </div>
-          )),
-        )}
-      </div>
+        <button type="submit">
+          {editIndex !== null ? "Update" : "Submit"}
+        </button>
+      </form>
 
-      <div style={{ color: "red" }}>
-        {chat.map((ele, i) => (
+      <div>
+        {message.map((e, i) => (
           <div key={i}>
-            {ele.role}: {ele.message}
+            <p>{e}</p>
+
+            <button onClick={() => handleEdit(i)}>Edit</button>
           </div>
         ))}
-
-        {loading && <div>loading....</div>}
       </div>
     </div>
   );
