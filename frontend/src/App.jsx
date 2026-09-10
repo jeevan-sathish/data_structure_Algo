@@ -1,77 +1,33 @@
-import { useDispatch, useSelector } from "react-redux";
-import { increment, decrement, reset } from "./store/CounterSlice";
-import { addTodo, deleteTodo, editTodo } from "./store/TodoSlice";
-import { useState } from "react";
+import { api } from "./utils/api";
 
 const App = () => {
-  const [text, setText] = useState("");
-  const [edit, setEdit] = useState(false);
-  const [editIndex, setEditIndex] = useState(null);
+  async function handleRequest() {
+    try {
+      const response = await api.post("/access");
+      const { demo_access_token, demo_refresh_token } = response.data;
 
-  const dispatch = useDispatch();
-
-  const { todo } = useSelector((state) => state.todoList);
-  const { count } = useSelector((state) => state.counter);
-
-  function handleChange(e) {
-    setText(e.target.value);
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    if (edit) {
-      dispatch(
-        editTodo({
-          index: editIndex,
-          newText: text,
-        }),
-      );
-
-      setEdit(false);
-      setEditIndex(null);
-      setText("");
-    } else {
-      dispatch(addTodo(text));
-      setText("");
+      console.log(demo_access_token);
+      console.log(demo_refresh_token);
+      localStorage.setItem("demo_access_token", demo_access_token);
+      localStorage.setItem("demo_refresh_token", demo_refresh_token);
+    } catch (error) {
+      console.log(error);
     }
   }
 
-  function handleEdit(oldtext, index) {
-    setEdit(true);
-    setText(oldtext);
-    setEditIndex(index);
+  async function handleVerify() {
+    try {
+      const response = await api.get("/verify");
+      const result = response.data.result;
+      console.log(result);
+    } catch (error) {
+      console.log(error.response.data.result);
+    }
   }
-
   return (
     <div>
-      <div>
-        <p>{count}</p>
-
-        <button onClick={() => dispatch(increment(10))}>increment</button>
-
-        <button onClick={() => dispatch(decrement())}>decrement</button>
-
-        <button onClick={() => dispatch(reset())}>reset</button>
-      </div>
-
-      <div>
-        <form onSubmit={handleSubmit}>
-          <input type="text" name="text" value={text} onChange={handleChange} />
-
-          <button type="submit">{edit ? "Update" : "Submit"}</button>
-        </form>
-
-        {todo.map((ele, i) => (
-          <div key={i}>
-            {ele}
-
-            <button onClick={() => handleEdit(ele, i)}>edit</button>
-
-            <button onClick={() => dispatch(deleteTodo(i))}>delete</button>
-          </div>
-        ))}
-      </div>
+      <button onClick={handleRequest}>send</button>
+      <button onClick={handleVerify}>verify</button>
     </div>
   );
 };
