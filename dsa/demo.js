@@ -48,18 +48,24 @@
 // const b = new B("jeevan");
 // console.log(b.age);
 
-const data = [
-  {
-    name: "jeevan",
-    age: 20,
-  },
-  {
-    name: "kiran",
-    age: 21,
-  },
-];
-const name = "shahsi";
-const result = data.map((ele) =>
-  ele.age === 21 ? { ...ele, name: name } : ele,
-);
+// const data = [
+//   {
+//     name: "jeevan",
+//     age: 20,
+//   },
+//   {
+//     name: "kiran",
+//     age: 21,
+//   },
+// ];
+// const name = "shahsi";
+// const result = data.map((ele) =>
+//   ele.age === 21 ? { ...ele, name: name } : ele,
+// );
+// console.log(result);
+
+const name = ["jeevan", "ravan", "shani", "guru"];
+const uname = "ravikumar";
+
+const result = name.map((ele, i) => (i === 1 ? uname : ele));
 console.log(result);
