@@ -1,18 +1,13 @@
 import Counter from "./components/Counter";
 import CounterHover from "./components/CounterHover";
-import ErrorBoundary from "./utils/ErrorBoundry";
 
-const App = () => {
+function App() {
   return (
     <div>
-      <ErrorBoundary>
-        <Counter />
-      </ErrorBoundary>
-      <ErrorBoundary>
-        <CounterHover />
-      </ErrorBoundary>
+      <Counter />
+      <CounterHover />
     </div>
   );
-};
+}
 
 export default App;

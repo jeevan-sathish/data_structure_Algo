@@ -5,10 +5,11 @@ const CounterHover = () => {
 
   function increment() {
     setCount((prev) => prev + 1);
+    console.log("rerendered CounterHOver");
   }
   return (
     <div>
-      {couunt}
+      {count}
       <button onMouseOver={increment}>increment</button>
     </div>
   );

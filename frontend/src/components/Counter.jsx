@@ -5,6 +5,7 @@ const Counter = () => {
 
   function increment() {
     setCount((prev) => prev + 1);
+    console.log("rerender Counter");
   }
   return (
     <div>
