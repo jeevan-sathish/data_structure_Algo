@@ -1,4 +1,4 @@
-from fastapi import FastAPI ,Request
+from fastapi import FastAPI ,Request,Response
 
 app=FastAPI(
     title="My FastAPI Application",
@@ -10,6 +10,9 @@ app=FastAPI(
 )
 
 @app.get("/")
-async def root_read(request:Request):
+async def root_read(request:Request,response:Response):
     print(str(request.url))
+    
+    response.status_code = 200
+
     return {"message": "Hello World"}
