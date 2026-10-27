@@ -75,35 +75,49 @@
 
 # asyncio.run(dashboard())
 
-import asyncio
+# import asyncio
 
-async def fun1():
-    print("running fun1")
-    await asyncio.sleep(2)
-    print("fun1 completed")
-    return ["fun1","completed"]
+# async def fun1():
+#     print("running fun1")
+#     await asyncio.sleep(2)
+#     print("fun1 completed")
+#     return ["fun1","completed"]
 
-async def fun2():
-    print("running fun2")
-    await asyncio.sleep(3)
-    print("fun2 completed")
-    return ["fun2","completed"]
+# async def fun2():
+#     print("running fun2")
+#     await asyncio.sleep(3)
+#     print("fun2 completed")
+#     return ["fun2","completed"]
 
-async def fun3():
-    print("running fun3")
-    await asyncio.sleep(5)
-    print("fun3 completed")
-    return ["fun3","completed"]
+# async def fun3():
+#     print("running fun3")
+#     await asyncio.sleep(5)
+#     print("fun3 completed")
+#     return ["fun3","completed"]
 
-async def main():
-    result = await asyncio.gather(
-        fun1(),
-        fun2(),
-        fun3()    )
+# async def main():
+#     result = await asyncio.gather(
+#         fun1(),
+#         fun2(),
+#         fun3()    )
 
-    print(result)
+#     print(result)
 
-asyncio.run(main())
+# asyncio.run(main())
+
+# i=0
+# j=0
+
+# while
+
+
+
+def demo(**kargs):
+  for key,value in kargs.items():
+    print(f"{key}:{value}")
+  
+
+print(demo(name="jeevabn" ,age=20))
     
 
 
