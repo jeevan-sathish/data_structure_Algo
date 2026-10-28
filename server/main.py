@@ -1,8 +1,15 @@
 from fastapi import FastAPI ,HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+import os
+from dotenv import load_dotenv
 import json
 import httpx
+from groq import AsyncGroq ,RateLimitError,APIError
 from pydantic import BaseModel,StrictInt,ValidationError
+
+load_dotenv()
+
+API_KEY =os.getenv("OPENAI_API_KEY")
 
 app=FastAPI(
     title="My FastAPI Application",
@@ -78,3 +85,81 @@ async def call_ext():
             status_code=502,
             detail="External API failed"
         ) from e
+
+
+    
+class Prompt(BaseModel):
+     prompt:str
+
+
+
+
+from groq import (
+    AsyncGroq,
+    RateLimitError,
+    APIStatusError,
+    APIConnectionError,
+)
+
+client = AsyncGroq(api_key=os.getenv("GROQ_API_KEY"))
+
+@app.post("/chat", tags=["chat"])
+async def chat_now(prompt: Prompt):
+    try:
+        response = await client.chat.completions.create(
+            model="openai/gpt-oss-20b",
+            messages=[
+                {"role": "user", "content": prompt.prompt}
+            ],
+            max_completion_tokens=150
+        )
+
+        return {
+            "question": prompt.prompt,
+            "answer": response.choices[0].message.content
+        }
+
+    except RateLimitError as e:
+        print("Groq rate limit:", repr(e))
+        raise HTTPException(
+            status_code=429,
+            detail="Too many requests or API quota exceeded"
+        ) from e
+
+    except APIConnectionError as e:
+        print("Groq connection error:", repr(e))
+        raise HTTPException(
+            status_code=503,
+            detail="Unable to connect to AI service"
+        ) from e
+
+    except APIStatusError as e:
+        print("Groq API status:", e.status_code, repr(e))
+        raise HTTPException(
+            status_code=502,
+            detail="AI service request failed"
+        ) from e
+
+
+
+class Bulk(BaseModel):
+     items:list[str]
+
+
+@app.post('/bulk')
+def bul_response(item:Bulk,query:str):
+     length =len(item.items)
+     uper_items =[i.upper() for i in item.items]
+     result =query in item.items
+     
+          
+
+     return {
+          "items":item.items,
+          "size":length,
+          "upper_coce":uper_items,
+          "result":result
+     }
+    
+     
+     
