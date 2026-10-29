@@ -112,12 +112,12 @@
 
 
 
-def demo(**kargs):
-  for key,value in kargs.items():
-    print(f"{key}:{value}")
+# def demo(**kargs):
+#   for key,value in kargs.items():
+#     print(f"{key}:{value}")
   
 
-print(demo(name="jeevabn" ,age=20))
+# print(demo(name="jeevabn" ,age=20))
     
 
 
