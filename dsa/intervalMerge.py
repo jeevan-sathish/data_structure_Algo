@@ -15,7 +15,7 @@ def interval_merge(interval):
         last = merged[-1][1]
         print(current ,last)
 
-        if(current > last ):
+        if(last < current ):
             merged.append(ele)
         else:
             merged[-1][1]=max(last,ele[1])
