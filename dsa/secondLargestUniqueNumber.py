@@ -15,7 +15,7 @@ def remove_duplicates(array):
                     smallest =largest
                     largest = i
                 elif i <largest and i >smallest:
-                    smallest=1
+                    smallest=i
 
     
 
