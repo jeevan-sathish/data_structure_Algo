@@ -2,35 +2,47 @@ import axios from "axios";
 import { useState } from "react";
 
 const App = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setErroor] = useState("");
+  const [error, setError] = useState("");
+  console.log(data);
+  const id = 2;
   const callapi = async () => {
     setLoading(true);
+    setError("");
+
     try {
-      const response = await axios.get("http://localhost:8000/res");
-      const result = response.data;
-      setTimeout(() => {
-        setData(result);
-        setLoading(false);
-      }, 5000);
+      const response = await axios.post(`http://localhost:8000/user/${id}`, {
+        name: "prajwal",
+      });
+
+      setData(response.data.user);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setErroor(error?.response?.data?.detail || "server error 500");
-        setLoading(false);
+        setError(
+          error.response?.data?.detail?.[0]?.msg ||
+            error.response?.data?.detail ||
+            "Server error",
+        );
+      } else {
+        setError("Something went wrong");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div>
-      <button onClick={callapi}>call api</button>
-      {error && <p>error</p>}
-      <br />
-      {loading && <p>loading please wait</p>}
-      <div>
-        <p>{JSON.stringify(data, null, 2)}</p>
-      </div>
+      <button onClick={callapi} disabled={loading}>
+        Call API
+      </button>
+
+      {loading && <p>Loading please wait...</p>}
+
+      {error && <p>{error}</p>}
+
+      {data && <p>{JSON.stringify(data, null, 2)}</p>}
     </div>
   );
 };

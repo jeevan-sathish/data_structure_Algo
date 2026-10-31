@@ -1,4 +1,4 @@
-from fastapi import FastAPI ,HTTPException
+from fastapi import FastAPI ,HTTPException,Query
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
@@ -6,6 +6,8 @@ import json
 import httpx
 from groq import AsyncGroq ,RateLimitError,APIError
 from pydantic import BaseModel,StrictInt,ValidationError
+from model import User
+from database import Base,engine
 
 load_dotenv()
 
@@ -27,6 +29,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+Base.metadata.create_all(bind=engine)
+
+
 
 class ResponseModel(BaseModel):
       name:str
@@ -68,7 +73,7 @@ def demo_res():
 
 
 
-app = FastAPI()
+
 
 @app.get("/external")
 async def call_ext():
@@ -160,6 +165,40 @@ def bul_response(item:Bulk,query:str):
           "upper_coce":uper_items,
           "result":result
      }
+
+dummydata =[
+     {"id":1,"name":"jeevan","age":"20"},
+     {"id":2,"name":"ravan","age":"22"},
+     {"id":3,"name":"shavan","age":"23"},
+     {"id":4,"name":"mavan","age":"28"}
+]
+@app.get('/querydata',tags=["query parameters"])
+def queryData(name:str = Query(min_length=3),age:int =Query(gt =10) ):
+     
+     return{
+          "name":name,
+          "age":age
+     }
+
+class UpdateUSer(BaseModel):
+     name:str
+
+@app.post('/user/{id}')
+def getUser(id:int,name:UpdateUSer):
+     if id:
+          for u in dummydata:
+               if u["id"] == id:
+                    u["name"] = name.name
+        
+           
+          return {
+               "user":dummydata
+          }
+     raise HTTPException(
+          status_code =401,
+          detail=f"id not found {id}"
+     )
+
+
+
     
-     
-     
