@@ -6,7 +6,7 @@ import json
 import httpx
 from groq import AsyncGroq ,RateLimitError,APIError
 from pydantic import BaseModel,StrictInt,ValidationError
-from model import User
+from model import User , Order
 from database import Base,engine
 from routes.user import router as user_router
 
