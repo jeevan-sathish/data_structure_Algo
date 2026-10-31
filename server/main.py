@@ -8,6 +8,7 @@ from groq import AsyncGroq ,RateLimitError,APIError
 from pydantic import BaseModel,StrictInt,ValidationError
 from model import User
 from database import Base,engine
+from routes.user import router as user_router
 
 load_dotenv()
 
@@ -30,6 +31,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 Base.metadata.create_all(bind=engine)
+app.include_router(user_router)
 
 
 
