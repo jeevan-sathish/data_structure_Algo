@@ -6,17 +6,24 @@ model = {
     "honda": ["honda1", "honda2", "honda3"],
 }
 
-inp = "bmw"
-cache = {}
+# result =[{"key":keys,"val":val} for keys in model for val in model[keys]]
+# print(result)
 
-if inp in cache:
-    print("Cache hit:", cache[inp])
+# for k in model:
+#     for i in model[k]:
+#         print(k,i)
 
-else:
-    if inp in model:
-        cache[inp] = model[inp]
-        print("Fetched from model:", cache[inp])
-    else:
-        print("Model not found")
+# inp = "bmw"
+# cache = {}
 
-print("Cache:", cache)
+# if inp in cache:
+#     print("Cache hit:", cache[inp])
+
+# else:
+#     if inp in model:
+#         cache[inp] = model[inp]
+#         print("Fetched from model:", cache[inp])
+#     else:
+#         print("Model not found")
+
+# print("Cache:", cache)
