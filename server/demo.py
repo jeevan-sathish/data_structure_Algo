@@ -6,8 +6,15 @@ r =redis.Redis(
     decode_responses=True
 )
 
-print("redis connected",r.ping())
 
-brand ="bmw"
-models =["bwm1","bmw2","bmw3"]
-r.set(brand,json.dumps(models))
+r.hset(
+    "user1",
+    mapping={
+        "name":"jeevan",
+        "email":"jeevan@gmail.com"
+    }
+)
+
+data = r.hgetall("user1")
+for key,val in data.items():
+    print(key,val)
